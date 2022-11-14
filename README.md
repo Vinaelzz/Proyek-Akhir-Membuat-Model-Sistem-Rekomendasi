@@ -156,7 +156,7 @@ pada model ini akan menghasilkan rekomendasi berdasarkan rating tertinggi terhad
 ## Evaluasi
 
 1. Content based learning
- untuk model ini digunakan metrik *precision* untuk mendapatkan hasil rekomendasi, berikut adalah rumus dari *precision matrix* model
+ untuk model ini digunakan metrik *precision* untuk mendapatkan hasil rekomendasi, berikut adalah rumus dari *precision metric* model
  
 ![image](https://user-images.githubusercontent.com/73600512/201631000-42c639cf-d5ed-4684-8741-c6dc7df78b1b.png)
 
