@@ -69,7 +69,7 @@ pada tahap ini data dibagi menjadi 2 bagian yaitu, 80% data train ( data yang ak
 ### Standarization
 Pada data rating yang digunakan pada proyek ini berada pada rentang 0.5  hingga 5.0. Penerapan standarisasi ini akan mempermudah proses training nantinya, dikarenakan akan teradapat kemungkinan munculnya bias jika data tidak di standarisasi terlebih dahulu.
 
-## Modelling
+## Modelling & Result
 
 pada tahap modelling ada beberapa hal yang dilakukan yaitu :
 
@@ -86,6 +86,16 @@ pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana y
 ![image](https://user-images.githubusercontent.com/73600512/201580295-82bf619a-999f-49cd-93fa-771f6aca5b50.png)
 
 ukuran dimensi embedding yang paling optimal adalah : 2
+
+
+### Result
+berikut adalah hasil modelling sistem rekomendasi
+
+![image](https://user-images.githubusercontent.com/73600512/201583809-b315672d-cff3-4934-898d-4dea702d0ba4.png)
+
+1. pertama sistem mengambil sampel secara acak yaitu untuk user : 559
+2. lalu sistem menunjukan rekomendasi movie berdasarkan rating tertinggi dari user lain sebanyak 5 rekomendasi movie
+3. sistem juga menunjukan rekomendasi movie berdasarkan history / kegiatan user di masalalu sebanyak 10 rekomendasi movie
 
 ## Evaluasi
 Metrik evaluasi yang digunakan pada proyek ini root mean squared error (RMSE). Akurasi menentukan tingkat kemiripan antara hasil rekomendasi dengan nilai yang sebenarnya. Berikut formula RMSE :
