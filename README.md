@@ -1,10 +1,10 @@
 # Proyek-Akhir-Membuat-Model-Sistem-Rekomendasi-Movie
 Nama : Sievin Nathanael
 
-##Project Overview
+## Project Overview
   pada era digital ini sudah banyak sekali website-website untuk menonton/streaming movie bertebaran di internet mulai dari Netflix, idlix, iqiyi, disney+, dan lain sebagainya. Dan salah satu permasalahan yang sering dihadapi para pengguna website tersebut adalah mereka bingung akan movie apa yang harus di tontonnya dikarenakanq mereka sudah kehabisan stock movie yang ingin di tonton dan bingung mencari movie yang memiliki genre yang sama dan rating yang bagus sesuai dengan selera orang tersebut. Oleh karena itu sistem rekomendasi ini dapat membantu para user yang sedang kebingungan dalam mencari movie yang cocok dengannya dan sistem rekomendasi ini dapat diterapkan di website-website streaming movie tersebut.
   
-  REFRENSI TARUH DI BAWAH.
+
   
 ## Business Understanding
 
@@ -25,7 +25,7 @@ Dalam pembuatan model ini terdapat 2 model solusi yang digunakan yaitu :
 1. Content Based Filtering adalah algoritma yang merekomendasikan movie berdasarkan kegiatan/tindakan masalalu user atau history user.
 2. Collaborative Filtering. adalah algoritma yang berdasarkan pada rating user lainnya, dan dia tidak memerlukan history dari setiap user
 
-##Data Understanding
+## Data Understanding
 Dataset yang digunakan dalam proyek ini berasal dari kaggle yaitu : [Movie recommendation Dataset]([https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset](https://www.kaggle.com/datasets/rohan4050/movie-recommendation-data)).
 
 
@@ -88,12 +88,33 @@ pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana y
 ukuran dimensi embedding yang paling optimal adalah : 2
 
 ## Evaluasi
-Metrik evaluasi yang digunakan pada proyek ini root mean squared error (RMSE). Akurasi menentukan tingkat kemiripan antara hasil rekomendasi dengan nilai yang sebenarnya (y_test). Mean squared error (MSE) mengukur error dalam model statistik dengan cara menghitung rata-rata error dari kuadrat hasil aktual dikurang hasil prediksi. Berikut formulan MSE :
+Metrik evaluasi yang digunakan pada proyek ini root mean squared error (RMSE). Akurasi menentukan tingkat kemiripan antara hasil rekomendasi dengan nilai yang sebenarnya. Berikut formula RMSE :
 
-![image](https://user-images.githubusercontent.com/73600512/201581347-4f8e50d2-9252-480e-bf35-6661a22e5124.png)
+![image](https://user-images.githubusercontent.com/73600512/201583080-dba9112b-58c0-4aa4-a260-d6b83236b74d.png)
+
+At : Nilai Aktual.
+
+ft = Nilai hasil peramalan.
+
+N = banyaknya dataset
 
 
-i	=	variable i
-{N}	=	number of non-missing data points
-x_{i}	=	actual observations time series
-\hat{x}_{i}	=	estimated time series
+
+semakin rendah nilai RMSE menunjukkan bahwa variasi nilai yang dihasilkan oleh suatu model prakiraan mendekati variasi nilai obeservasinya. RMSE menghitung seberapa berbedanya seperangkat nilai. Semakin kecil nilai RMSE, semakin dekat nilai yang diprediksi dan diamati.
+
+Berikut ini adalah plot metrik RMSE setelah proses pelatihan model.
+
+
+![image](https://user-images.githubusercontent.com/73600512/201581657-0ccd95b2-b917-43ae-ae4f-24acb8ea9027.png)
+
+dari hasil visualisasi dengan matplotlib diatas dapat disimpulkan bahwa dari proses diatas dengan menggunakan epoch 25, menghasilkan error pada validasi sebesar 0.20 dan error pada data train sebesar 0.18
+
+## Conclusion
+
+Dari penelitian diatas maka dapat dihasilkan sebuah sistem rekomendasi movie yang dapat memberikan rekomendasi kepada usernya melalui 2 buah pendekatan yaitu berdasarkan content based learning dan colaborative based learning. Yang dimana sistem rekomendasi tersebut memberikan rekomendasi movie sesuai dengan rating yang diberikan user lain serta memberikan rekomendasi movie sesuai dengan history / kegiatan masa lalu user.
+
+## Refrensi
+[1] M. Chenna Keshava, P. Narendra Reddy, S. Srinivasulu, & B. Dinesh Naik. (2020). Machine Learning Model for Movie Recommendation System. International Journal of Engineering Research And, V9(04), 800–805. https://doi.org/10.17577/ijertv9is040741
+
+[2] Moody, J. (2019). What does RMSE really mean?. Towards Data Science. https://towardsdatascience.com/what-does-rmse-really-mean-806b65f2e48e
+
