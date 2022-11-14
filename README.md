@@ -42,8 +42,13 @@ Jumlah tag/genre dari movie  :  1572
       - genres : genre dari movie
       berisi 9742 baris data dan 3 kolom 
       
-      ![image](https://user-images.githubusercontent.com/73600512/201588372-b31de08d-5696-4787-ab37-3efd89f55a4d.png)
-
+    | movieId | Titles                                          | Genres                                          |              
+    |----|------------------------------------------------|-------------------------------------------------|
+    | 1  | Toy Story (1995)                       | Adventure\|ANimation\|children\|Comedy\|Fantasy |
+    | 2  | Jumanji (1995)	 | Adventure\|Children\|Fantasy|
+    | 3  | Grumpier Old Men (1995)	                                  | Comedy\|Romance |
+    | 4  | Waiting to Exhale (1995)                              | Comedy\|Drama\|Romance |
+    | 5  | Father of the Bride Part II (1995)	              | Comedy |
 
       
   2. 'ratings.csv' = merupakan daftar rating dari user terhadap movie
@@ -51,9 +56,14 @@ Jumlah tag/genre dari movie  :  1572
       - MovieId : id dari movie
       - rating : rating yang diberikan user
       - timestamp : penunjuk waktu
-      
-      ![image](https://user-images.githubusercontent.com/73600512/201588416-d7bcb859-8142-4ffd-9a2a-ba84b741cdf6.png)
-
+       
+       | UserId |       MovieId                                | rating                                           | timestamp |
+        |----|------------------------------------------------|-------------------------------------------------|--------|
+        | 1  | 1                  | 4.0|      964982703 |
+        | 2  | 3 | 4.0 |    964981247    |
+        | 3  | 6                                   | 4.0 |      964982224  |
+        | 4  | 47                            | 5.0 |   964983815     |
+        | 5  | 50               | 5.0 |  964982931      |
 
       berisi 100836 baris data dan 4 kolom
       
@@ -68,7 +78,14 @@ Jumlah tag/genre dari movie  :  1572
       - tag : genres/kata kunci dari movie
       - timestamp : penunjuk waktu
 
-      ![image](https://user-images.githubusercontent.com/73600512/201588480-00754324-dee9-4a21-8823-3cdb261d6413.png) 
+      
+       | UserId |       MovieId                                | tag                                           | timestamp |
+        |----|------------------------------------------------|-------------------------------------------------|--------|
+        |2  | 60756                  | funny|      1445714994 |
+        | 2  | 60756 | Highly quotable |    1445714996    |
+        | 2  | 60756                                   | will ferrell |      1445714992  |
+        | 2  | 89774                            | 	Boxing story |   1445715207     |
+        |2  | 89774               | MMA |  1445715200      |
 
 
        berisi 3683  baris data dan 4 kolom
@@ -94,34 +111,27 @@ pada tahap ini data dibagi menjadi 2 bagian yaitu, 80% data train ( data yang ak
 Pada data rating yang digunakan pada proyek ini berada pada rentang 0.5  hingga 5.0. Penerapan standarisasi ini akan mempermudah proses training nantinya, dikarenakan akan teradapat kemungkinan munculnya bias jika data tidak di standarisasi terlebih dahulu.
 
 ## Modelling & Result
+### 1. Content Based Learning
 
+pada pendeketan menggunakan model Content Based Learning terdapat beberapa tahapan pembuatan model yaitu :
 
-pada tahap modelling ada beberapa hal yang dilakukan yaitu :
-### Membuat kelas RecommenderNet 
-RecommenderNet berguna untuk menghitung tingkat / skor kecocokan antar user dengan movie, 
+#### Menggunakan cosine similiarity 
+   Menggunakan cosine siiliarity untuk mencari derajat kesamaan ( Similiarity degree) antara movie-movie yang ada, sehingga dari derajat kesamaan tersebut dapat terlihat movie mana yang memiliki kesamaan dengan movie yang disukai oleh user.
 
-dalam pembuatan recommenderNet digunakan beberapa parameter untuk menghasilkan model recommender, berikut adalah variabel/parameter yang digunakan :
-| 1 | Num_user       | jumlah total user                                                 |
+  Lalu setelah dibuatnya dataframe cosine similiarity yang menunjukan derajat kesamaan antar movie maka dibuatlah sistem rekomendasi berdasarkan pendekatan content based learning dengan parameter sebagai berikut :
+
+| 1 | movie_name       | Nama judul dari movie tersebut (index kemiripan dataframe).                                                 |
 |---|----------------|-------------------------------------------------------------------|
-| 2 | num_movie      | jumlah total movie                                                |
-| 3 | embedding_size | ukuran dimensi yang digunakan untuk embedding data user dan movie |
+| 2 | Similarity_data      | Dataframe mengenai similarity yang telah kita didefinisikan sebelumnya                                               |
+| 3 | Items | Nama dan fitur yang digunakan untuk mendefinisikan kemiripan, dalam hal ini adalah ‘movie_name’ dan ‘genre’. |
+| 4 | k | Banyak rekomendasi yang ingin diberikan.|
 
-dengan menggunakan "num_user" dan "num_movie" sebagai inputan untuk menghitung skor kecocokan antar user dan movie, lalu "embedding_size" berguna untuk memberikan batasan dimensi embedding pada proses perhitungan kecocokan. Semakin besar ukuran dimensi embeddingnya atau *embedding size* maka akan semakin tinggi akurasi dari perhitungan tetapi dapat menimbulkan *overfit* oleh karena itu untuk mencari parameter "embedding_size" yang tepat, maka dilakukanlah *hyperparameter tuning* agar bisa mendapatkan "embedding_size" yang cocok dan tepat untuk model ini. RecommenderNet ini termasuk kedalam proses pendekatan menggunakan *Collaborative based learning*
+#### Content Based Learning result
+berikut adalah hasil rekomendasi dari model content based learning  :
 
-
-### Hyperparameter tuning
-pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana yang menghasilkan hasil yang paling optimal nantinya, dan hasil dari dilakukannya hyperparameter tuning ini menunjukan ukuran dimensi embedding yang paling optimal adalah : 1
-
-
-### Result
-
-berikut adalah hasil modelling sistem rekomendasi berdasarkan 2 buah model solusi yaitu :
-
-1. Content based learning 
-
-berikut adalah hasil rekomendasi dari model content based learning 
-
-![image](https://user-images.githubusercontent.com/73600512/201622441-db511350-53d2-46a4-b857-c7126dd8b365.png)
+|   | MovieId | title            | genres                                             |
+|---|---------|------------------|----------------------------------------------------|
+|   | 1       | Toy Story (1995) | Adventur\| ANimation\| Children\| COmedy\| Fantasy |
 
 disini user memilih movie dengan judul "toy story (1995) untuk dijadikan sebagai patokan movie yang disukai user
 
@@ -137,7 +147,24 @@ disini user memilih movie dengan judul "toy story (1995) untuk dijadikan sebagai
 
 content based learning rekomendasi yang berasal dari perilaku  user, dengan model content based learning maka sistem akan mengambil genre & tag dari movie yang pernah di tonton user dahulu, lalu dari hasil history user tersebut maka sistem akan memunculkan rekomendasi movie yang memiliki genre dan tag yang sejenis
 
-2. collaborative based learning
+### 2. Collaborative based learning
+
+pada pendeketan menggunakan model Collaborative based learning terdapat beberapa tahapan pembuatan model yaitu :
+
+#### Membuat kelas RecommenderNet 
+RecommenderNet berguna untuk menghitung tingkat / skor kecocokan antar user dengan movie,  dengan menggunakan "num_user" dan "num_movie" sebagai inputan untuk menghitung skor kecocokan antar user dan movie, lalu "embedding_size" berguna untuk memberikan batasan dimensi embedding pada proses perhitungan kecocokan. Semakin besar ukuran dimensi embeddingnya atau *embedding size* maka akan semakin tinggi akurasi dari perhitungan tetapi dapat menimbulkan *overfit* oleh karena itu untuk mencari parameter "embedding_size" yang tepat, maka dilakukanlah *hyperparameter tuning* agar bisa mendapatkan "embedding_size" yang cocok dan tepat untuk model ini. 
+
+dalam pembuatan recommenderNet digunakan beberapa parameter untuk menghasilkan model recommender, berikut adalah variabel/parameter yang digunakan :
+| 1 | Num_user       | jumlah total user                                                 |
+|---|----------------|-------------------------------------------------------------------|
+| 2 | num_movie      | jumlah total movie                                                |
+| 3 | embedding_size | ukuran dimensi yang digunakan untuk embedding data user dan movie |
+
+
+#### Hyperparameter tuning
+pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana yang menghasilkan hasil yang paling optimal nantinya, dan hasil dari dilakukannya hyperparameter tuning ini menunjukan ukuran dimensi embedding yang paling optimal adalah : 1
+
+#### Collaborative based learning Result
 
 | no | Title                                          | jumlah total userGenres                         |
 |----|------------------------------------------------|-------------------------------------------------|
@@ -151,7 +178,7 @@ content based learning rekomendasi yang berasal dari perilaku  user, dengan mode
 | 8  | Band of Brothers (2001)                        | Action,Drama,War                                |
 | 9  | Three Billboards Outside Ebbing, Missouri (2017) | Crime,Drama                                   |
 
-pada model ini akan menghasilkan rekomendasi berdasarkan rating tertinggi terhadap movie dari user, pertama sistem akan menunjukan movie yang memiliki rating paling tinggi, lalu sistem akan menunjukan 10 rekomendasi berdasarkan movie dengan rating tertinggi
+pada model ini akan menghasilkan rekomendasi berdasarkan rating tertinggi terhadap movie dari user, pertama sistem akan menunjukan movie yang memiliki rating paling tinggi, lalu sistem akan menunjukan 10 rekomendasi movie berdasarkan movie dengan rating tertinggi
 
 ## Evaluasi
 
@@ -160,6 +187,10 @@ pada model ini akan menghasilkan rekomendasi berdasarkan rating tertinggi terhad
  
 ![image](https://user-images.githubusercontent.com/73600512/201631000-42c639cf-d5ed-4684-8741-c6dc7df78b1b.png)
 
+berdasarkan rumus precision diatas maka dapat dihitung nilai *precision* sebagai berikut : 
+- pada movie yang dipilih yaitu Toy Story (1995)	dengan genre Adventure|Animation|Children|Comedy|Fantasy
+- muncul 5 buah rekomendasi movie yang memiliki genre yang sama yaitu Adventure|Animation|Children|Comedy|Fantasy
+- jadi hasil dari metrik precisionnya adalah 5/5 = 100%. Yang dimana menunjukan hasil yang sangat baik yaitu 100% yang berarti presisi dari rekomendasi yang diberikan adalah sempurna
 
 2. Collaborative based learning
  
