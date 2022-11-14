@@ -106,15 +106,11 @@ dalam pembuatan recommenderNet digunakan beberapa parameter untuk menghasilkan m
 | 2 | num_movie      | jumlah total movie                                                |
 | 3 | embedding_size | ukuran dimensi yang digunakan untuk embedding data user dan movie |
 
-dengan menggunakan "num_user" dan "num_movie" sebagai inputan untuk menghitung skor kecocokan antar user dan movie, lalu "embedding_size" berguna untuk memberikan batasan dimensi embedding pada proses perhitungan kecocokan. Semakin besar ukuran dimensi embeddingnya atau *embedding size* maka akan semakin tinggi akurasi dari perhitungan tetapi dapat menimbulkan *overfit* oleh karena itu untuk mencari parameter "embedding_size" yang tepat, maka dilakukanlah *hyperparameter tuning* agar bisa mendapatkan "embedding_size" yang cocok dan tepat untuk model ini. RecommenderNet ini termasuk kedalam proses pendekatan menggunakan *Collaborative based learning"
+dengan menggunakan "num_user" dan "num_movie" sebagai inputan untuk menghitung skor kecocokan antar user dan movie, lalu "embedding_size" berguna untuk memberikan batasan dimensi embedding pada proses perhitungan kecocokan. Semakin besar ukuran dimensi embeddingnya atau *embedding size* maka akan semakin tinggi akurasi dari perhitungan tetapi dapat menimbulkan *overfit* oleh karena itu untuk mencari parameter "embedding_size" yang tepat, maka dilakukanlah *hyperparameter tuning* agar bisa mendapatkan "embedding_size" yang cocok dan tepat untuk model ini. RecommenderNet ini termasuk kedalam proses pendekatan menggunakan *Collaborative based learning*
 
 
 ### Hyperparameter tuning
-pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana yang menghasilkan hasil yang paling optimal nantinya, dan hasil dari dilakukannya hyperparameter tuning ini adalah sebagai berikut :
-
-![image](https://user-images.githubusercontent.com/73600512/201580295-82bf619a-999f-49cd-93fa-771f6aca5b50.png)
-
-ukuran dimensi embedding yang paling optimal adalah : 2
+pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana yang menghasilkan hasil yang paling optimal nantinya, dan hasil dari dilakukannya hyperparameter tuning ini menunjukan ukuran dimensi embedding yang paling optimal adalah : 1
 
 
 ### Result
@@ -129,7 +125,13 @@ berikut adalah hasil rekomendasi dari model content based learning
 
 disini user memilih movie dengan judul "toy story (1995) untuk dijadikan sebagai patokan movie yang disukai user
 
-![image](https://user-images.githubusercontent.com/73600512/201622301-f4a8433a-6031-4124-a578-8d43371815f5.png)
+| no | Title                                          | jumlah total userGenres                         |
+|----|------------------------------------------------|-------------------------------------------------|
+| 1  | The Good Dinosaur (2015)                       | Adventure\|ANimation\|children\|Comedy\|Fantasy |
+| 2  | Adventures of Rocky and Bullwinkle, The (2000) | Adventure\|Animation\|Children\|Comedy\|fantasy |
+| 3  | Moana (2016)                                   | Adventure\|Animation\|Children\|COmedy\|Fantasy |
+| 4  | Wild, The (2006)                               | Adventure\|Animation\|Children\|Comedy\|Fantasy |
+| 5  | Emperor's New GRoove, The (2000)               | Adventure\|Animation\|Children\|Comedy\|fantasy |
 
  lalu sistem akan memunculkan rekomendasi movie yang memiliki kata kunci / tag yang mirip dengan movie "toy story (1995), hasil dari rekomendasi itu berasal dari movie yang memiliki derajat kesamaan (similiarity degree) yang sama.
 
@@ -137,12 +139,31 @@ content based learning rekomendasi yang berasal dari perilaku  user, dengan mode
 
 2. collaborative based learning
 
-![image](https://user-images.githubusercontent.com/73600512/201623085-8719c1be-76ec-43be-9f9c-f582361532af.png)
+| no | Title                                          | jumlah total userGenres                         |
+|----|------------------------------------------------|-------------------------------------------------|
+| 1  | Kolya (Kolja) (1996)                           | Comedy, Drama |
+| 2  | Jules and Jim (Jules et Jim) (1961)            | Drama, Romance |
+| 3  | Neon Genesis Evangelion: The End of Evangelion (1997)           | Action,Animation,Drama,Fantasy, |
+| 4  | Memories of Murder (Salinui chueok) (2003)     | Crime,Drama,Mystery,Thriller                  |
+| 5  | Tekkonkinkreet (Tekkon kinkurîto) (2006)       | AAction,Adventure,Animation,Crime,Fantasy |
+| 6  | Day of the Doctor, The (2013)                  | Adventure,Drama,Sci-Fi                          |
+| 7  | Captain Fantastic (2016)                       | Drama                                           |
+| 8  | Band of Brothers (2001)                        | Action,Drama,War                                |
+| 9  | Three Billboards Outside Ebbing, Missouri (2017) | Crime,Drama                                   |
 
 pada model ini akan menghasilkan rekomendasi berdasarkan rating tertinggi terhadap movie dari user, pertama sistem akan menunjukan movie yang memiliki rating paling tinggi, lalu sistem akan menunjukan 10 rekomendasi berdasarkan movie dengan rating tertinggi
 
 ## Evaluasi
-Metrik evaluasi yang digunakan pada proyek ini root mean squared error (RMSE). Akurasi menentukan tingkat kemiripan antara hasil rekomendasi dengan nilai yang sebenarnya. Berikut formula RMSE :
+
+1. Content based learning
+ untuk model ini digunakan metrik *precision* untuk mendapatkan hasil rekomendasi, berikut adalah rumus dari *precision matrix* model
+ 
+![image](https://user-images.githubusercontent.com/73600512/201631000-42c639cf-d5ed-4684-8741-c6dc7df78b1b.png)
+
+
+2. Collaborative based learning
+ 
+Metrik evaluasi yang digunakan pada model collaborative based lerarning root mean squared error (RMSE). Akurasi menentukan tingkat kemiripan antara hasil rekomendasi dengan nilai yang sebenarnya. Berikut formula RMSE :
 
 ![image](https://user-images.githubusercontent.com/73600512/201583080-dba9112b-58c0-4aa4-a260-d6b83236b74d.png)
 
