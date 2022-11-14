@@ -2,7 +2,7 @@
 Nama : Sievin Nathanael
 
 ## Project Overview
-  pada era digital ini sudah banyak sekali website-website untuk menonton/streaming movie bertebaran di internet mulai dari Netflix, idlix, iqiyi, disney+, dan lain sebagainya. Dan salah satu permasalahan yang sering dihadapi para pengguna website tersebut adalah mereka bingung akan movie apa yang harus di tontonnya dikarenakanq mereka sudah kehabisan stock movie yang ingin di tonton dan bingung mencari movie yang memiliki genre yang sama dan rating yang bagus sesuai dengan selera orang tersebut. Oleh karena itu sistem rekomendasi ini dapat membantu para user yang sedang kebingungan dalam mencari movie yang cocok dengannya dan sistem rekomendasi ini dapat diterapkan di website-website streaming movie tersebut.
+  Pada era digital ini sudah banyak sekali website-website untuk menonton/streaming movie bertebaran di internet mulai dari Netflix, idlix, iqiyi, disney+, dan lain sebagainya. Dan salah satu permasalahan yang sering dihadapi para pengguna *website* tersebut adalah mereka bingung akan movie apa yang harus di tontonnya dikarenakanq mereka sudah kehabisan *stock movie* yang ingin di tonton dan bingung mencari movie yang memiliki genre yang sama dan rating yang bagus sesuai dengan selera orang tersebut. Oleh karena itu sistem rekomendasi ini dapat membantu para user yang sedang kebingungan dalam mencari movie yang cocok dengannya dan sistem rekomendasi ini dapat diterapkan di *website-website streaming movie* tersebut.
   
 
   
@@ -28,8 +28,12 @@ Dalam pembuatan model ini terdapat 2 model solusi yang digunakan yaitu :
 ## Data Understanding
 Dataset yang digunakan dalam proyek ini berasal dari kaggle yaitu : [Movie recommendation Dataset]([https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset](https://www.kaggle.com/datasets/rohan4050/movie-recommendation-data)).
 
-
 informasi terkait dataset :
+- 
+Jumlah  movie :  9742
+Jumlah  user yang memberikan rating :  610
+Jumlah  ratings dari user :  9724
+Jumlah tag/genre dari movie  :  1572
 - Dataset memiliki format CSV (Comma-Seperated Values).
 - Menggunakan 3 dataset yaitu : 
   1. 'movies.csv' = merupakan daftar judul movie yang tersedia.Berikut adalah isi dari dataset berikut :
@@ -37,26 +41,46 @@ informasi terkait dataset :
       - Title : Judul movie
       - genres : genre dari movie
       berisi 9742 baris data dan 3 kolom 
+      
+      ![image](https://user-images.githubusercontent.com/73600512/201588372-b31de08d-5696-4787-ab37-3efd89f55a4d.png)
+
+
+      
   2. 'ratings.csv' = merupakan daftar rating dari user terhadap movie
       - UserId : id dari user yang memberikan rating
       - MovieId : id dari movie
       - rating : rating yang diberikan user
       - timestamp : penunjuk waktu
+      
+      ![image](https://user-images.githubusercontent.com/73600512/201588416-d7bcb859-8142-4ffd-9a2a-ba84b741cdf6.png)
+
+
       berisi 100836 baris data dan 4 kolom
+      
+      ![image](https://user-images.githubusercontent.com/73600512/201588207-572c7d66-5096-4c82-9028-ff52dc2a2ad9.png)
+      
+      Dari hasil visualisasi dataset di atas, kita dapat memahami lebih lanjut terkait data yang akan kita olah.
+      pada dataset rating menunjukan bahwa sebagian besar user memberikan rating "4" terhadap movie yang di tonton
+      
   3. 'tags.csv' = merupakan daftar kata kunci / genre dari movie
       - UserId = id user
       - movieId : id movie
       - tag : genres/kata kunci dari movie
       - timestamp : penunjuk waktu
+
+      ![image](https://user-images.githubusercontent.com/73600512/201588480-00754324-dee9-4a21-8823-3cdb261d6413.png) 
+
+
        berisi 3683  baris data dan 4 kolom
 - Terdapat missing value dalam beberapa dataset 
 
 ## Data Preparation
 
 ### Data Cleaning
+pada tahapan ini digunakan library pandas untuk membantu proses pembersihan data
 - merging data / menggabungkan data menjadi satu tabel agar lebih gampang di telaah dan dianalisis
 - melakukan pengecekan dataset untuk menemukan missing value, melakukan drop terhadap missing value 
-- melakuan drop terhadap kolom 'Timestamp' dikarenakan tidak memiliki hubungan dengan sistem rekomendasi yang akan dibuat
+- melakuan *drop* terhadap kolom 'Timestamp' dikarenakan tidak memiliki hubungan dengan sistem rekomendasi yang akan dibuat
 ### Analisis
 - melakukan Univariate exploratory data analysis untuk menganalisis tiap faktor/fitur yang ada secara terpisah sehingga kita bisa mengetahui elemen unik/outliers dari faktor tersebut dan outliers tersebut akan di drop untuk menghindari ketidakakuratan hasil predictive analysis.
 - dan dari hasil univariate exloratory data anlysis tidak ditemukan outliers yang berarti
@@ -71,14 +95,19 @@ Pada data rating yang digunakan pada proyek ini berada pada rentang 0.5  hingga 
 
 ## Modelling & Result
 
-pada tahap modelling ada beberapa hal yang dilakukan yaitu :
 
+pada tahap modelling ada beberapa hal yang dilakukan yaitu :
 ### Membuat kelas RecommenderNet 
+RecommenderNet berguna untuk menghitung tingkat / skor kecocokan antar user dengan movie, 
+
 dalam pembuatan recommenderNet digunakan beberapa parameter untuk menghasilkan model recommender, berikut adalah variabel/parameter yang digunakan :
 | 1 | Num_user       | jumlah total user                                                 |
 |---|----------------|-------------------------------------------------------------------|
 | 2 | num_movie      | jumlah total movie                                                |
 | 3 | embedding_size | ukuran dimensi yang digunakan untuk embedding data user dan movie |
+
+dengan menggunakan "num_user" dan "num_movie" sebagai inputan untuk menghitung skor kecocokan antar user dan movie, lalu "embedding_size" berguna untuk memberikan batasan dimensi embedding pada proses perhitungan kecocokan. Semakin besar ukuran dimensi embeddingnya atau *embedding size* maka akan semakin tinggi akurasi dari perhitungan tetapi dapat menimbulkan *overfit* oleh karena itu untuk mencari parameter "embedding_size" yang tepat, maka dilakukanlah *hyperparameter tuning* agar bisa mendapatkan "embedding_size" yang cocok dan tepat untuk model ini. RecommenderNet ini termasuk kedalam proses pendekatan menggunakan *Collaborative based learning"
+
 
 ### Hyperparameter tuning
 pada tahap ini dilakukan hyperparameter tuning untuk menentukan paramater mana yang menghasilkan hasil yang paling optimal nantinya, dan hasil dari dilakukannya hyperparameter tuning ini adalah sebagai berikut :
@@ -89,13 +118,28 @@ ukuran dimensi embedding yang paling optimal adalah : 2
 
 
 ### Result
-berikut adalah hasil modelling sistem rekomendasi
 
-![image](https://user-images.githubusercontent.com/73600512/201583809-b315672d-cff3-4934-898d-4dea702d0ba4.png)
+berikut adalah hasil modelling sistem rekomendasi berdasarkan 2 buah model solusi yaitu :
 
-1. pertama sistem mengambil sampel secara acak yaitu untuk user : 559
-2. lalu sistem menunjukan rekomendasi movie berdasarkan rating tertinggi dari user lain sebanyak 5 rekomendasi movie
-3. sistem juga menunjukan rekomendasi movie berdasarkan history / kegiatan user di masalalu sebanyak 10 rekomendasi movie
+1. Content based learning 
+
+berikut adalah hasil rekomendasi dari model content based learning 
+
+![image](https://user-images.githubusercontent.com/73600512/201622441-db511350-53d2-46a4-b857-c7126dd8b365.png)
+
+disini user memilih movie dengan judul "toy story (1995) untuk dijadikan sebagai patokan movie yang disukai user
+
+![image](https://user-images.githubusercontent.com/73600512/201622301-f4a8433a-6031-4124-a578-8d43371815f5.png)
+
+ lalu sistem akan memunculkan rekomendasi movie yang memiliki kata kunci / tag yang mirip dengan movie "toy story (1995), hasil dari rekomendasi itu berasal dari movie yang memiliki derajat kesamaan (similiarity degree) yang sama.
+
+content based learning rekomendasi yang berasal dari perilaku  user, dengan model content based learning maka sistem akan mengambil genre & tag dari movie yang pernah di tonton user dahulu, lalu dari hasil history user tersebut maka sistem akan memunculkan rekomendasi movie yang memiliki genre dan tag yang sejenis
+
+2. collaborative based learning
+
+![image](https://user-images.githubusercontent.com/73600512/201623085-8719c1be-76ec-43be-9f9c-f582361532af.png)
+
+pada model ini akan menghasilkan rekomendasi berdasarkan rating tertinggi terhadap movie dari user, pertama sistem akan menunjukan movie yang memiliki rating paling tinggi, lalu sistem akan menunjukan 10 rekomendasi berdasarkan movie dengan rating tertinggi
 
 ## Evaluasi
 Metrik evaluasi yang digunakan pada proyek ini root mean squared error (RMSE). Akurasi menentukan tingkat kemiripan antara hasil rekomendasi dengan nilai yang sebenarnya. Berikut formula RMSE :
